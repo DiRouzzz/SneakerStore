@@ -1,9 +1,16 @@
-import { arrSneakers } from '../../data';
 import styles from './Card.module.scss';
+import { useState } from 'react';
 
-export const Card = () => {
-	return arrSneakers.map(({ id, name, price, image }) => (
-		<div className={styles.card} key={id}>
+export const Card = ({ name, price, image, onPlus }) => {
+	const [isAdded, setIsAdded] = useState(false);
+
+	const onClickPlus = () => {
+		onPlus({ name, price, image });
+		setIsAdded(!isAdded);
+	};
+
+	return (
+		<div className={styles.card}>
 			<div className={styles.favorite}>
 				<img src='/img/btn-heart.svg' alt='heart-unliked' />
 			</div>
@@ -14,10 +21,14 @@ export const Card = () => {
 					<span>Цена:</span>
 					<b>{price} руб.</b>
 				</div>
-				<button className='button' onClick={() => console.log('Click', name)}>
-					<img width={11} height={11} src='/img/plus.svg' alt='plus' />
-				</button>
+				<img className={styles.plus}
+					width={32}
+					height={32}
+					onClick={onClickPlus}
+					src={isAdded ? '/img/btn-liked.svg' : '/img/btn-plus.svg'}
+					alt='plus'
+				/>
 			</div>
 		</div>
-	));
+	);
 };
