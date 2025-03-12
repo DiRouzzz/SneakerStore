@@ -21,7 +21,8 @@ export const Card = ({ name, price, image, onPlus }) => {
 					<span>Цена:</span>
 					<b>{price} руб.</b>
 				</div>
-				<img className={styles.plus}
+				<img
+					className={styles.plus}
 					width={32}
 					height={32}
 					onClick={onClickPlus}
