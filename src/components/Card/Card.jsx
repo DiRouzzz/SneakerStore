@@ -5,7 +5,7 @@ export const Card = ({ name, price, image, onPlus }) => {
 	const [isAdded, setIsAdded] = useState(false);
 
 	const onClickPlus = () => {
-		onPlus({ name, price, image });
+		onPlus();
 		setIsAdded(!isAdded);
 	};
 

@@ -1,6 +1,6 @@
 import { Card } from './components/Card/Card';
 import { Header } from './components/Header';
-import { Drawer } from './components/Drawer';
+import { Drawer } from './components/Drawer/Drawer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -21,6 +21,8 @@ function App() {
 	}, []);
 
 	const onAddToCart = sneakerItem => {
+		console.log('sneakerItem', sneakerItem);
+		
 		if (!cartItems.some(item => item.id === sneakerItem.id)) {
 			axios.post(
 				'https://67d0888a825945773eb13b65.mockapi.io/cart',
@@ -28,6 +30,11 @@ function App() {
 			);
 			setCartItems(prevItems => [...prevItems, sneakerItem]);
 		}
+	};
+
+	const onClickRemove = id => {
+		axios.delete(`https://67d0888a825945773eb13b65.mockapi.io/cart/${id}`);
+		setCartItems(prev => prev.filter(item => item.id !== id));
 	};
 
 	const onChangeInput = event => {
@@ -40,7 +47,7 @@ function App() {
 				<Drawer
 					cartItems={cartItems}
 					onClose={() => setCartOpened(false)}
-					setCartItems={setCartItems}
+					onClickRemove={onClickRemove}
 				/>
 			)}
 			<Header onClickCart={() => setCartOpened(true)} />
