@@ -1,5 +1,7 @@
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
+import { AppContext } from '../../context';
+import { useContext } from 'react';
 
 export const Card = ({
 	name,
@@ -7,10 +9,13 @@ export const Card = ({
 	image,
 	onPlus,
 	onFavorite,
-	addedItems,
+	addedCart,
 	addedFavorite,
-	isLoading,
 }) => {
+	const { isLoading } = useContext(AppContext);
+
+	
+
 	const onClickPlus = () => {
 		onPlus();
 	};
@@ -60,7 +65,7 @@ export const Card = ({
 							width={32}
 							height={32}
 							onClick={onClickPlus}
-							src={addedItems ? '/img/btn-liked.svg' : '/img/btn-plus.svg'}
+							src={addedCart ? '/img/btn-liked.svg' : '/img/btn-plus.svg'}
 							alt='plus'
 						/>
 					</div>
