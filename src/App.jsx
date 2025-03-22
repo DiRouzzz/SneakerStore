@@ -1,39 +1,96 @@
-import { Card } from './components/Card/Card';
+import { Home } from './pages/Home';
+import { Favorites } from './pages/Favorites';
 import { Header } from './components/Header';
 import { Drawer } from './components/Drawer/Drawer';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ITEMS_API, FAVORITES_API, CART_API } from './api';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
 	const [cartOpened, setCartOpened] = useState(false);
 	const [items, setItems] = useState([]);
 	const [cartItems, setCartItems] = useState([]);
+	const [favorites, setFavorites] = useState([]);
 	const [inputValue, setInputValue] = useState('');
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		axios
-			.get('https://67d0888a825945773eb13b65.mockapi.io/items')
-			.then(response => setItems(response.data));
+		const fetchData = async () => {
+			const cartResponse = await axios.get(CART_API);
+			const favoritesResponse = await axios.get(FAVORITES_API);
+			const itemsResponse = await axios.get(ITEMS_API);
 
-		axios
-			.get('https://67d0888a825945773eb13b65.mockapi.io/cart')
-			.then(response => setCartItems(response.data));
+			setTimeout(() => {
+				setIsLoading(false);
+
+				setCartItems(cartResponse.data);
+				setFavorites(favoritesResponse.data);
+				setItems(itemsResponse.data);
+			}, 3000);
+		};
+
+		fetchData();
 	}, []);
 
-	const onAddToCart = sneakerItem => {
-		console.log('sneakerItem', sneakerItem);
-		
-		if (!cartItems.some(item => item.id === sneakerItem.id)) {
-			axios.post(
-				'https://67d0888a825945773eb13b65.mockapi.io/cart',
-				sneakerItem
-			);
-			setCartItems(prevItems => [...prevItems, sneakerItem]);
+	const onAddToCart = async sneakerItem => {
+		try {
+			const existingItem = cartItems.find(fav => fav.id === sneakerItem.id);
+
+			if (existingItem) {
+				const response = await axios.delete(`${CART_API}/${sneakerItem.id}`);
+
+				if (response.status !== 200) {
+					throw new Error('Ошибка при удалении из корзины');
+				}
+
+				setCartItems(prev => prev.filter(item => item.id !== sneakerItem.id));
+				return;
+			}
+
+			const response = await axios.post(CART_API, sneakerItem);
+
+			if (response.status !== 201) {
+				throw new Error('Ошибка при добавлении в корзину');
+			}
+
+			setCartItems(prevItems => [...prevItems, response.data]);
+		} catch (error) {
+			console.error('Ошибка в onAddToCart:', error?.message || error);
+		}
+	};
+
+	const onAddToFavorite = async sneakerItem => {
+		try {
+			const existingItem = favorites.find(fav => fav.id === sneakerItem.id);
+
+			if (existingItem) {
+				const response = await axios.delete(
+					`${FAVORITES_API}/${sneakerItem.id}`
+				);
+
+				if (response.status !== 200) {
+					throw new Error('Ошибка при удалении из закладок');
+				}
+
+				setFavorites(prev => prev.filter(item => item.id !== sneakerItem.id));
+				return;
+			}
+
+			const response = await axios.post(FAVORITES_API, sneakerItem);
+
+			if (response.status !== 201) {
+				throw new Error('Ошибка при добавлении в закладки');
+			}
+
+			setFavorites(prevItems => [...prevItems, response.data]);
+		} catch (error) {
+			console.error('Ошибка в onAddToFavorite:', error?.message || error);
 		}
 	};
 
 	const onClickRemove = id => {
-		axios.delete(`https://67d0888a825945773eb13b65.mockapi.io/cart/${id}`);
+		axios.delete(`${CART_API}/${id}`);
 		setCartItems(prev => prev.filter(item => item.id !== id));
 	};
 
@@ -51,37 +108,33 @@ function App() {
 				/>
 			)}
 			<Header onClickCart={() => setCartOpened(true)} />
-			<div className='content p-40'>
-				<div className='d-flex align-center mb-40 justify-between'>
-					<h1>{inputValue ? `Поиск по '${inputValue}'` : 'Все Кроссовки'}</h1>
-					<div className='search-block d-flex align-center'>
-						<img
-							width={14.25}
-							height={14.25}
-							src='/img/search.svg'
-							alt='search'
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<Home
+							items={items}
+							cartItems={cartItems}
+							favorites={favorites}
+							inputValue={inputValue}
+							onChangeInput={onChangeInput}
+							onAddToCart={onAddToCart}
+							onAddToFavorite={onAddToFavorite}
+							isLoading={isLoading}
 						/>
-						<input
-							onChange={onChangeInput}
-							value={inputValue}
-							placeholder='Поиск...'
+					}
+					exact
+				/>
+				<Route
+					path='/favorites'
+					element={
+						<Favorites
+							favorites={favorites}
+							onAddToFavorite={onAddToFavorite}
 						/>
-					</div>
-				</div>
-				<div className='sneakers d-flex flex-wrap'>
-					{items
-						.filter(sneaker =>
-							sneaker.name.toLowerCase().includes(inputValue.toLowerCase())
-						)
-						.map(sneaker => (
-							<Card
-								key={sneaker.id}
-								{...sneaker}
-								onPlus={() => onAddToCart(sneaker)}
-							/>
-						))}
-				</div>
-			</div>
+					}
+				/>
+			</Routes>
 		</div>
 	);
 }
