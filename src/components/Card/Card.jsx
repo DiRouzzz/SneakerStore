@@ -11,10 +11,9 @@ export const Card = ({
 	onFavorite,
 	addedCart,
 	addedFavorite,
+	isOrders = false,
 }) => {
 	const { isLoading } = useContext(AppContext);
-
-	
 
 	const onClickPlus = () => {
 		onPlus();
@@ -43,15 +42,17 @@ export const Card = ({
 			) : (
 				<>
 					<div className={styles.favorite}>
-						<img
-							onClick={onClickFavorite}
-							src={
-								addedFavorite
-									? '/img/btn-heart-liked.svg'
-									: '/img/btn-heart-unliked.svg'
-							}
-							alt='heart-unliked'
-						/>
+						{isOrders ? null : (
+							<img
+								onClick={onClickFavorite}
+								src={
+									addedFavorite
+										? '/img/btn-heart-liked.svg'
+										: '/img/btn-heart-unliked.svg'
+								}
+								alt='heart-unliked'
+							/>
+						)}
 					</div>
 					<img width={133} height={112} src={image} alt='sneakers' />
 					<h5>{name}</h5>
@@ -60,14 +61,16 @@ export const Card = ({
 							<span>Цена:</span>
 							<b>{price} руб.</b>
 						</div>
-						<img
-							className={styles.plus}
-							width={32}
-							height={32}
-							onClick={onClickPlus}
-							src={addedCart ? '/img/btn-liked.svg' : '/img/btn-plus.svg'}
-							alt='plus'
-						/>
+						{isOrders ? null : (
+							<img
+								className={styles.plus}
+								width={32}
+								height={32}
+								onClick={onClickPlus}
+								src={addedCart ? '/img/btn-liked.svg' : '/img/btn-plus.svg'}
+								alt='plus'
+							/>
+						)}
 					</div>
 				</>
 			)}

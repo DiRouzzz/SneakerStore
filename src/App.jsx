@@ -1,4 +1,5 @@
 import { Home } from './pages/Home';
+import { Orders } from './pages/Orders';
 import { Favorites } from './pages/Favorites';
 import { Header } from './components/Header/Header';
 import { Drawer } from './components/Drawer/Drawer';
@@ -99,14 +100,12 @@ function App() {
 		setInputValue(event.target.value);
 	};
 
-	
-
 	return (
-		<AppContext value={{ isLoading, favorites, cartItems, setCartItems, setCartOpened }}>
+		<AppContext
+			value={{ isLoading, favorites, cartItems, setCartItems, setCartOpened }}>
 			<div className='wrapper clear'>
 				{cartOpened && (
 					<Drawer
-						cartItems={cartItems}
 						onClose={() => setCartOpened(false)}
 						onClickRemove={onClickRemove}
 					/>
@@ -134,10 +133,13 @@ function App() {
 						element={
 							<Favorites
 								favorites={favorites}
+								cartItems={cartItems}
 								onAddToFavorite={onAddToFavorite}
+								onAddToCart={onAddToCart}
 							/>
 						}
 					/>
+					<Route path='/orders' element={<Orders />} />
 				</Routes>
 			</div>
 		</AppContext>

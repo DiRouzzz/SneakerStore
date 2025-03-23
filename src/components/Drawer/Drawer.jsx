@@ -1,12 +1,12 @@
-import styles from './Drawer.module.scss';
 import { Info } from '../Info/Info';
-import { useContext, useState } from 'react';
-import { AppContext } from '../../context';
 import axios from 'axios';
 import { ORDERS_API, CART_API } from '../../api';
+import { useCart } from '../../hooks/useCart';
+import { useState } from 'react';
 
-export const Drawer = ({ onClose, cartItems, onClickRemove }) => {
-	const { setCartItems } = useContext(AppContext);
+export const Drawer = ({ onClose, onClickRemove }) => {
+	const { cartItems, setCartItems, totalPrice, percentOfTotalPrice } =
+		useCart();
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [idOrder, setIdOrder] = useState(null);
 	const [isLoadingBtn, setIsLoadingBtn] = useState(false);
@@ -70,12 +70,12 @@ export const Drawer = ({ onClose, cartItems, onClickRemove }) => {
 								<li>
 									<span>Итого:</span>
 									<div></div>
-									<b>12 999 руб.</b>
+									<b>{totalPrice} руб.</b>
 								</li>
 								<li>
 									<span>Налог 5%:</span>
 									<div></div>
-									<b>1000 руб.</b>
+									<b>{percentOfTotalPrice} руб.</b>
 								</li>
 							</ul>
 							<button
