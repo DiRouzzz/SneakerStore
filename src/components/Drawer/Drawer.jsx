@@ -3,10 +3,16 @@ import axios from 'axios';
 import { ORDERS_API, CART_API } from '../../api';
 import { useCart } from '../../hooks/useCart';
 import { useState } from 'react';
+import styles from './Drawer.module.scss'
 
-export const Drawer = ({ onClose, onClickRemove }) => {
-	const { cartItems, setCartItems, totalPrice, percentOfTotalPrice } =
-		useCart();
+export const Drawer = ({ onClose, onClickRemove, opened }) => {
+	const {
+		cartItems,
+		setCartItems,
+		totalPrice,
+		percentOfTotalPrice,
+		getCurrentDateTime,
+	} = useCart();
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [idOrder, setIdOrder] = useState(null);
 	const [isLoadingBtn, setIsLoadingBtn] = useState(false);
@@ -16,6 +22,7 @@ export const Drawer = ({ onClose, onClickRemove }) => {
 			setIsLoadingBtn(true);
 			const { data, status } = await axios.post(ORDERS_API, {
 				items: cartItems,
+				date: getCurrentDateTime(),
 			});
 			if (status !== 201) {
 				throw new Error('Ошибка при оформлении заказа');
@@ -33,8 +40,8 @@ export const Drawer = ({ onClose, onClickRemove }) => {
 		setIsLoadingBtn(false);
 	};
 	return (
-		<div className='overlay'>
-			<div className='drawer'>
+		<div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+			<div className={styles.drawer}>
 				<h2 className='mb-30 d-flex justify-between'>
 					Корзина
 					<img
@@ -46,7 +53,7 @@ export const Drawer = ({ onClose, onClickRemove }) => {
 				</h2>
 				{cartItems.length ? (
 					<>
-						<div className='items'>
+						<div className={styles.items}>
 							{cartItems.map(({ id, image, name, price }) => (
 								<div key={id} className='cartItem d-flex align-center mb-20'>
 									<div
@@ -99,6 +106,9 @@ export const Drawer = ({ onClose, onClickRemove }) => {
 							isOrderComplete ? '/img/completeOrder.svg' : '/img/emptyCart.svg'
 						}
 						alt={isOrderComplete ? 'Заказ оформлен' : 'Пустая корзина'}
+						width='120px'
+						height='120px'
+						setIsOrderComplete={setIsOrderComplete}
 					/>
 				)}
 			</div>

@@ -38,34 +38,33 @@ header {
 }
 
 .cartEmpty {
-  text-align: center;
+	text-align: center;
+	height: calc(100vh - 400px);
 
-  p {
-    width: 280px;
-    line-height: 24px;
-  }
+	p {
+		width: 280px;
+		line-height: 24px;
+	}
 
-  .greenButton {
-    width: 245px;
-    margin-top: 20px;
+	.greenButton {
+		width: 245px;
+		margin-top: 20px;
 
-    &:hover {
-      img {
-        transform: rotate(180deg) translateX(3px);
-      }
-    }
+		&:hover {
+			img {
+				transform: rotate(180deg) translateX(3px);
+			}
+		}
 
-    img {
-      position: relative;
-      top: 1px;
-      transform: rotate(180deg);
-      margin-right: 15px;
-      transition: transform 0.15s ease-in-out;
-    }
-  }
+		img {
+			position: relative;
+			top: 1px;
+			transform: rotate(180deg);
+			margin-right: 15px;
+			transition: transform 0.15s ease-in-out;
+		}
+	}
 }
-
-
 
 .button {
 	box-sizing: border-box;
@@ -91,37 +90,37 @@ header {
 	}
 }
 
-.overlay {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 1;
-}
+// .overlay {
+// 	position: absolute;
+// 	left: 0;
+// 	top: 0;
+// 	width: 100%;
+// 	height: 100%;
+// 	background: rgba(0, 0, 0, 0.5);
+// 	z-index: 1;
+// }
 
-.drawer {
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	width: 385px;
-	right: 0;
-	height: 100%;
-	background: #ffffff;
-	box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
-	padding: 30px;
+// .drawer {
+// 	display: flex;
+// 	flex-direction: column;
+// 	position: absolute;
+// 	width: 385px;
+// 	right: 0;
+// 	height: 100%;
+// 	background: #ffffff;
+// 	box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+// 	padding: 30px;
 
-	.items {
-		overflow: auto;
-		margin-bottom: 40px;
-	}
+// 	.items {
+// 		overflow: auto;
+// 		margin-bottom: 40px;
+// 	}
 
-	h2 {
-		margin: 0;
-		font-size: 24px;
-	}
-}
+// 	h2 {
+// 		margin: 0;
+// 		font-size: 24px;
+// 	}
+// }
 
 .cartTotalBlock {
 	ul {
@@ -226,14 +225,45 @@ header {
 	}
 }
 
+.order {
+	.removeOrderButton {
+		width: 200px;
+		height: 55px;
+		background: #1e6de4;
+		border-radius: 18px;
+		border: 0;
+		color: #fff;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.1s ease-in-out;
+
+		&:disabled {
+			background-color: #bebebe;
+			cursor: default;
+		}
+
+		&:hover {
+			background: color.adjust(#514ee7, $lightness: 5%);
+		}
+		&:active {
+			background: color.adjust(#5b21e2, $lightness: -5%);
+		}
+	}
+	.line {
+		width: 100%;
+		border-top: 3px dashed #eaeaea;
+	}
+}
+
 @keyframes button-loading {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 1;
+	}
 }

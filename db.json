@@ -61,20 +61,20 @@
       "image": "/img/sneakers/10.jpg"
     }
   ],
-  "cart": [],
-  "favorites": [
+  "cart": [
     {
-      "id": "3",
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 8499,
-      "image": "/img/sneakers/3.jpg"
+      "id": "4",
+      "name": "Кроссовки Puma X Aka Boku Future Rider",
+      "price": 8999,
+      "image": "/img/sneakers/4.jpg"
     },
     {
-      "id": "10",
-      "name": "Мужские Кроссовки Nike Kyrie Flytrap IV",
-      "price": 12999,
-      "image": "/img/sneakers/10.jpg"
+      "id": "6",
+      "name": "Мужские Кроссовки Nike Kyrie 7",
+      "price": 11900,
+      "image": "/img/sneakers/6.jpg"
     }
   ],
+  "favorites": [],
   "orders": []
 }

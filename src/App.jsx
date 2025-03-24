@@ -19,17 +19,26 @@ function App() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const cartResponse = await axios.get(CART_API);
-			const favoritesResponse = await axios.get(FAVORITES_API);
-			const itemsResponse = await axios.get(ITEMS_API);
+			try {
+				const [cartResponse, favoritesResponse, itemsResponse] =
+					await Promise.all([
+						axios.get(CART_API),
+						axios.get(FAVORITES_API),
+						axios.get(ITEMS_API),
+					]);
 
-			setTimeout(() => {
-				setIsLoading(false);
-
-				setCartItems(cartResponse.data);
-				setFavorites(favoritesResponse.data);
-				setItems(itemsResponse.data);
-			}, 1000);
+				setTimeout(() => {
+					setCartItems(cartResponse.data);
+					setFavorites(favoritesResponse.data);
+					setItems(itemsResponse.data);
+					setIsLoading(false);
+				}, 1000);
+			} catch (error) {
+				console.error(
+					'Ошибка при получении данных: fetchData',
+					error?.message || error
+				);
+			}
 		};
 
 		fetchData();
@@ -91,9 +100,20 @@ function App() {
 		}
 	};
 
-	const onClickRemove = id => {
-		axios.delete(`${CART_API}/${id}`);
-		setCartItems(prev => prev.filter(item => item.id !== id));
+	const onClickRemove = async id => {
+		try {
+			const response = await axios.delete(`${CART_API}/${id}`);
+
+			if (response.status !== 200) {
+				throw new Error('Ошибка при удалении товара из корзины');
+			}
+			setCartItems(prev => prev.filter(item => item.id !== id));
+		} catch (error) {
+			console.error(
+				'Ошибка при удалении в onCLickRemove',
+				error?.message || error
+			);
+		}
 	};
 
 	const onChangeInput = event => {
@@ -104,12 +124,11 @@ function App() {
 		<AppContext
 			value={{ isLoading, favorites, cartItems, setCartItems, setCartOpened }}>
 			<div className='wrapper clear'>
-				{cartOpened && (
-					<Drawer
-						onClose={() => setCartOpened(false)}
-						onClickRemove={onClickRemove}
-					/>
-				)}
+				<Drawer
+					onClose={() => setCartOpened(false)}
+					onClickRemove={onClickRemove}
+					opened={cartOpened}
+				/>
 				<Header onClickCart={() => setCartOpened(true)} />
 				<Routes>
 					<Route
