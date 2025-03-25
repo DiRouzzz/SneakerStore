@@ -63,30 +63,36 @@
   ],
   "cart": [
     {
-      "id": "1",
-      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": 12999,
-      "image": "/img/sneakers/1.jpg"
+      "id": "4",
+      "name": "Кроссовки Puma X Aka Boku Future Rider",
+      "price": 8999,
+      "image": "/img/sneakers/4.jpg"
     },
     {
       "id": "2",
       "name": "Мужские Кроссовки Nike Air Max 270",
       "price": 12999,
       "image": "/img/sneakers/2.jpg"
+    },
+    {
+      "id": "1",
+      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
+      "price": 12999,
+      "image": "/img/sneakers/1.jpg"
     }
   ],
   "favorites": [
     {
-      "id": "9",
-      "name": "Мужские Кроссовки Nike Lebron XVIII Low",
-      "price": 20999,
-      "image": "/img/sneakers/9.jpg"
+      "id": "3",
+      "name": "Мужские Кроссовки Nike Blazer Mid Suede",
+      "price": 8499,
+      "image": "/img/sneakers/3.jpg"
     },
     {
-      "id": "8",
-      "name": "Мужские Кроссовки Nike LeBron XVIII",
-      "price": 18999,
-      "image": "/img/sneakers/8.jpg"
+      "id": "7",
+      "name": "Мужские Кроссовки Jordan Air Jordan 11",
+      "price": 14999,
+      "image": "/img/sneakers/7.jpg"
     }
   ],
   "orders": [
@@ -107,6 +113,42 @@
         }
       ],
       "date": "24.03.2025 20:39"
+    },
+    {
+      "id": "54a7",
+      "items": [
+        {
+          "id": "1",
+          "name": "Мужские Кроссовки Nike Blazer Mid Suede",
+          "price": 12999,
+          "image": "/img/sneakers/1.jpg"
+        },
+        {
+          "id": "2",
+          "name": "Мужские Кроссовки Nike Air Max 270",
+          "price": 12999,
+          "image": "/img/sneakers/2.jpg"
+        },
+        {
+          "id": "10",
+          "name": "Мужские Кроссовки Nike Kyrie Flytrap IV",
+          "price": 12999,
+          "image": "/img/sneakers/10.jpg"
+        },
+        {
+          "id": "9",
+          "name": "Мужские Кроссовки Nike Lebron XVIII Low",
+          "price": 20999,
+          "image": "/img/sneakers/9.jpg"
+        },
+        {
+          "id": "7",
+          "name": "Мужские Кроссовки Jordan Air Jordan 11",
+          "price": 14999,
+          "image": "/img/sneakers/7.jpg"
+        }
+      ],
+      "date": "25.03.2025 17:15"
     }
   ]
 }
